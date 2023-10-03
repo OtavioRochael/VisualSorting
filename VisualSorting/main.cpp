@@ -23,7 +23,7 @@ int main()
         window.Update();
         window.BeginDraw();
 
-        alg.selectionSort();
+        alg.insertionSort();
 
         window.EndDraw();
     }

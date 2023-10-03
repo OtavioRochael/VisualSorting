@@ -31,6 +31,10 @@ void Algorithm::bubbleSort()
 	} while (troca != -1);//enquanto tiver acontecido troca
 
 	sorted = true;
+
+	if (sorted) {
+		DiplayAlgorithm(i, -1, -1);
+	}
 }
 
 void Algorithm::selectionSort()
@@ -47,11 +51,100 @@ void Algorithm::selectionSort()
 		}
 		if (i != menor)//encontrou um elemento menor à direita
 		{//realiza a troca
-			aux = v[menor]; v[menor] = v[i]; v[i] = aux;
+			aux = v[menor];
+			v[menor] = v[i];
+			v[i] = aux;
 		}
 	}
 	sorted = true;
+
+	if (sorted) {
+		DiplayAlgorithm(i, -1, -1);
+	}
 }
+
+void Algorithm::insertionSort()
+{
+	int i, j, aux;
+	for (i = 1; i < size; i++) {//vai da segunda posição em diante
+		aux = v[i];
+		j = i;
+		while (j > 0 && v[j - 1] > aux)//enqto existe alguém maior
+		{ //que aux, faz o deslocamento para direita
+			v[j] = v[j - 1];
+			j--;//duplicando esse elemento
+			sf::sleep(sf::milliseconds(40));
+			DiplayAlgorithm(i, j, aux);
+		}
+		v[j] = aux;//local correto em que posso substituir
+	}
+	sorted = true;
+
+	if (sorted) {
+		DiplayAlgorithm(i, -1, -1);
+	}
+}
+
+void Algorithm::mergeSort(int in, int fim)
+{
+	int meio;
+	if (in < fim)
+	{
+		meio = (in + fim) / 2;
+		mergeSort(in, meio);//metade da esquerda
+		mergeSort(meio + 1, fim);//metade da direita
+		//intercala as duas metades ordenadas
+		merge(v, in, meio, fim);
+	}
+}
+
+void Algorithm::merge(std::vector<int>& v, int in, int meio, int fim)
+{
+	std::vector<int> aux;
+	int p1, p2, tam, i, j, k, f1, f2;
+	f1 = 0;
+	f2 = 0;
+	tam = fim - in + 1;
+	p1 = in;
+	p2 = meio + 1;
+	for (i = 0; i < tam; i++)
+	{
+		if (f1 == 0 && f2 == 0)//nenhum dos subvetores acabou
+		{
+			if (v[p1] < v[p2])
+			{
+				aux[i] = v[p1]; p1++;
+			}
+			else
+			{
+				aux[i] = v[p2]; p2++;
+			}
+			if (p1 > meio) f1 = 1;//vetor acabou?
+			if (p2 > fim) f2 = 1;
+		}
+		else//qual subvetor acabou?
+		{
+			if (f1 == 1)
+			{
+				aux[i] = v[p2]; p2++;
+			}
+			else
+			{
+				aux[i] = v[p1]; p1++;
+			}
+		}
+	}
+	//fim for
+
+	for (j = 0; j < tam; j++) {
+		k = in;
+		k++;
+		v[k] = aux[j];
+		DiplayAlgorithm(i, j, k);
+	}
+	
+}
+
 
 void Algorithm::DiplayAlgorithm(int i, int j, int menor)
 {
@@ -84,4 +177,9 @@ void Algorithm::DiplayAlgorithm(int i, int j, int menor)
 bool Algorithm::GetSorted() const
 {
 	return sorted;
+}
+
+int Algorithm::GetSize() const
+{
+	return size;
 }

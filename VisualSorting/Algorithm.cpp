@@ -17,7 +17,7 @@ void Algorithm::bubbleSort()
 		{ //troca sempre que o elemento da esquerda for maior
 			if (v[i] > v[i + 1])//realiza a troca
 			{
-				//sf::sleep(sf::milliseconds(25));
+				sf::sleep(sf::milliseconds(15));
 				DiplayAlgorithm(i, -1, i+1);
 
 				aux = v[i];
@@ -85,6 +85,7 @@ void Algorithm::insertionSort()
 	}
 }
 
+//fim = tamanho - 1
 void Algorithm::mergeSort(int in, int fim)
 {
 	int meio;
@@ -94,19 +95,20 @@ void Algorithm::mergeSort(int in, int fim)
 		mergeSort(in, meio);//metade da esquerda
 		mergeSort(meio + 1, fim);//metade da direita
 		//intercala as duas metades ordenadas
-		merge(v, in, meio, fim);
+		merge(in, meio, fim);
 	}
 }
 
-void Algorithm::merge(std::vector<int>& v, int in, int meio, int fim)
+void Algorithm::merge(int in, int meio, int fim)
 {
-	std::vector<int> aux;
+	int* aux;
 	int p1, p2, tam, i, j, k, f1, f2;
 	f1 = 0;
 	f2 = 0;
 	tam = fim - in + 1;
 	p1 = in;
 	p2 = meio + 1;
+	aux = new int[tam];
 	for (i = 0; i < tam; i++)
 	{
 		if (f1 == 0 && f2 == 0)//nenhum dos subvetores acabou
@@ -134,17 +136,61 @@ void Algorithm::merge(std::vector<int>& v, int in, int meio, int fim)
 			}
 		}
 	}
-	//fim for
 
-	for (j = 0; j < tam; j++) {
-		k = in;
-		k++;
+	for (j = 0, k = in; j < tam; k++, j++) {
 		v[k] = aux[j];
+		sf::sleep(sf::milliseconds(50));
 		DiplayAlgorithm(i, j, k);
 	}
-	
+
+	sorted = true;
+
+	if (sorted) {
+		DiplayAlgorithm(i, -1, -1);
+	}
 }
 
+//fim = tamanho - 1
+void Algorithm::quickSort(int in, int fim)
+{
+	int pospivo;
+	if (in < fim)
+	{
+		pospivo = particiona(in, fim);
+		quickSort(in, pospivo - 1);//lado esquerdo do pivô
+		quickSort(pospivo + 1, fim);//lado direito do pivô
+	}
+}
+
+int Algorithm::particiona(int in, int fim)
+{
+	int esq, dir, pivo, aux;
+	esq = in; dir = fim;
+	pivo = v[in];
+	while (esq < dir)
+	{
+		while (v[esq] <= pivo && esq <= fim) esq++;
+		while (v[dir] > pivo && dir >= in) dir--;
+		if (esq < dir)
+		{
+			aux = v[esq];
+			v[esq] = v[dir];
+			v[dir] = aux;
+			sf::sleep(sf::milliseconds(100));
+			DiplayAlgorithm(in, dir, pivo);
+		}
+	}
+	v[in] = v[dir];
+	v[dir] = pivo;
+
+	sorted = true;
+
+	if (sorted) {
+		DiplayAlgorithm(-1, -1, -1);
+	}
+
+	return dir;
+}
 
 void Algorithm::DiplayAlgorithm(int i, int j, int menor)
 {

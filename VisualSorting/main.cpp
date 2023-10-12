@@ -23,8 +23,8 @@ int main()
         window.Update();
         window.BeginDraw();
 
-        alg.insertionSort();
-
+        //Call here the algorithm;
+        alg.bubbleSort();
         window.EndDraw();
     }
     

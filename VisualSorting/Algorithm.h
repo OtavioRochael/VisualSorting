@@ -11,7 +11,9 @@ public:
 	void selectionSort();
 	void insertionSort();
 	void mergeSort(int in, int fim);
-	void merge(std::vector<int>& v, int in, int meio, int fim);
+	void merge(int in, int meio, int fim);
+	void quickSort(int in, int fim);
+	int particiona(int in, int fim);
 	std::vector<int>& v;
 
 	void DiplayAlgorithm(int i, int j, int menor);

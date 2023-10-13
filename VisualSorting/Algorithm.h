@@ -17,6 +17,7 @@ public:
 	std::vector<int>& v;
 
 	void DiplayAlgorithm(int i, int j, int menor);
+	void SetDelay(int delay);
 	bool GetSorted() const;
 	int GetSize() const;
 private:
@@ -24,6 +25,7 @@ private:
 	int size;
 	int first{ 0 };
 	int columWidth;
+	unsigned int delay;
 	bool sorted{ false };
 };
 

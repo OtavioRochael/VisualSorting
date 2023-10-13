@@ -5,6 +5,7 @@
 
 Algorithm::Algorithm(std::vector<int>& v, int size,int columWidth, sf::RenderWindow& window) : v(v), size(size), columWidth(columWidth), window(window)
 {
+	delay = 0;
 }
 
 void Algorithm::bubbleSort()
@@ -15,15 +16,15 @@ void Algorithm::bubbleSort()
 		troca = -1;
 		for (i = 0; i < fim - 1; i++)
 		{ //troca sempre que o elemento da esquerda for maior
+			DiplayAlgorithm(i, -1, i+1);
 			if (v[i] > v[i + 1])//realiza a troca
 			{
-				sf::sleep(sf::milliseconds(15));
-				DiplayAlgorithm(i, -1, i+1);
+				sf::sleep(sf::milliseconds(delay));
 
 				aux = v[i];
 				v[i] = v[i + 1];
 				v[i + 1] = aux;
-				troca = i;//marca se houve a troca
+				troca = i; //marca se houve a troca
 			}
 		}
 
@@ -45,7 +46,7 @@ void Algorithm::selectionSort()
 		menor = i;
 		for (j = i + 1; j < size; j++)//procurando se tem menor à direita
 		{ //atualiza a posição do novo menor
-			//sf::sleep(sf::milliseconds(100));
+			sf::sleep(sf::milliseconds(delay));
 			if (v[j] < v[menor]) menor = j;
 			DiplayAlgorithm(i, j,menor);
 		}
@@ -59,7 +60,7 @@ void Algorithm::selectionSort()
 	sorted = true;
 
 	if (sorted) {
-		DiplayAlgorithm(i, -1, -1);
+		DiplayAlgorithm(-1, -1, -1);
 	}
 }
 
@@ -73,8 +74,8 @@ void Algorithm::insertionSort()
 		{ //que aux, faz o deslocamento para direita
 			v[j] = v[j - 1];
 			j--;//duplicando esse elemento
-			sf::sleep(sf::milliseconds(40));
-			DiplayAlgorithm(i, j, aux);
+			sf::sleep(sf::milliseconds(delay));
+			DiplayAlgorithm(i, j, j-1);
 		}
 		v[j] = aux;//local correto em que posso substituir
 	}
@@ -139,7 +140,7 @@ void Algorithm::merge(int in, int meio, int fim)
 
 	for (j = 0, k = in; j < tam; k++, j++) {
 		v[k] = aux[j];
-		sf::sleep(sf::milliseconds(50));
+		sf::sleep(sf::milliseconds(delay));
 		DiplayAlgorithm(i, j, k);
 	}
 
@@ -209,7 +210,7 @@ void Algorithm::DiplayAlgorithm(int i, int j, int menor)
 			shape.setFillColor(sf::Color::Blue);
 		}
 		else if (k == menor) {
-			shape.setFillColor(sf::Color::Yellow);
+			shape.setFillColor(sf::Color::Red);
 		}
 		else{
 			shape.setFillColor(sf::Color::White);
@@ -218,6 +219,11 @@ void Algorithm::DiplayAlgorithm(int i, int j, int menor)
 	}
 
 	window.display();
+}
+
+void Algorithm::SetDelay(int delay)
+{
+	this->delay = delay;
 }
 
 bool Algorithm::GetSorted() const

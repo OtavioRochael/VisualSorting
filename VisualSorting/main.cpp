@@ -19,12 +19,14 @@ int main()
  
     Algorithm alg = Algorithm(v, v.size(), COLUMWIDTH, *renderWindow);
 
+    alg.SetDelay(0);
+
     while (!window.IsDone()) {
         window.Update();
         window.BeginDraw();
 
         //Call here the algorithm;
-        alg.bubbleSort();
+        alg.insertionSort();
         window.EndDraw();
     }
     
